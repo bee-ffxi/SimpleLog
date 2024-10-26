@@ -24,3 +24,6 @@ Combat and Message log parser for Ashita v4
 - And a huge thanks to the Ashita development community, you're all awesome
 
 
+# Devlog
+
+0.1.2 [Bee] - Fixed an issue where targets weren't being displayed after monster weapon skills.
