@@ -873,16 +873,23 @@ actionhandlers.ActorParse = function (actor_id)
     if not filt then
         if ActorIsNpc then
             if actor_table.TargetIndex > 1791 then
-                typ = 'other_pets'
-                filt = 'other_pets'
-                owner = 'other'
-                dmg = 'otherdmg'
+                -- typ = 'other_pets'
+                -- filt = 'other_pets'
+                -- owner = 'other'
+                -- dmg = 'otherdmg'
+                typ = 'mob'
+                filt = 'monsters'
+                dmg = 'mobdmg'
                 for i, v in pairs(gFuncs.GetPartyData()) do
                     if type(v) == 'table' and v.mob and v.mob.PetTargetIndex and v.mob.PetTargetIndex == actor_table.TargetIndex then
                         if i == 'p0' then
                             typ = 'my_pet'
                             filt = 'my_pet'
                             dmg = 'mydmg'
+                        else
+                            typ = 'other_pets'
+                            filt = 'other_pets'
+                            dmg = 'otherdmg'
                         end
                         owner = i
                         owner_name = gProfileSettings.mode.showpetownernames and ' ('..gFuncs.ColorIt(v.mob.Name, gProfileColor[owner or typ])..') '
@@ -892,6 +899,10 @@ actionhandlers.ActorParse = function (actor_id)
                             typ = 'my_fellow'
                             filt = 'my_fellow'
                             dmg = 'mydmg'
+                        else
+                            typ = 'other_pets'
+                            filt = 'other_pets'
+                            dmg = 'otherdmg'
                         end
                         owner = i
                         owner_name = gProfileSettings.mode.showpetownernames and ' ('..gFuncs.ColorIt(v.mob.Name, gProfileColor[owner or typ])..') '
@@ -1032,8 +1043,8 @@ actionhandlers.SpellParse = function (act)
                 spell.data = get_weapon_skill[abil_ID]
             end
             if spell.data then
-                spell.name = gFuncs.ColorIt(spell.data.Name[gProfileSettings.lang.object], act.actor.type == 'mob' and gProfileColor.mobwscol or gProfileColor.wscol):gsub('[^%w :-\'\",.;<>?]', '')
-                spell.weapon_skill = gFuncs.ColorIt(spell.data.Name[gProfileSettings.lang.object], act.actor.type == 'mob' and gProfileColor.mobwscol or gProfileColor.wscol):gsub('[^%w :-\'\",.;<>?]', '')
+                spell.name = gFuncs.ColorIt(spell.data.Name[gProfileSettings.lang.object]:gsub('[^%w :-\'\",.;<>?]', ''), act.actor.type == 'mob' and gProfileColor.mobwscol or gProfileColor.wscol)
+                spell.weapon_skill = gFuncs.ColorIt(spell.data.Name[gProfileSettings.lang.object]:gsub('[^%w :-\'\",.;<>?]', ''), act.actor.type == 'mob' and gProfileColor.mobwscol or gProfileColor.wscol)
             end
         elseif msg_ID == 303 then
             spell.data = get_job_ability[74] -- Divine Seal
