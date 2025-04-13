@@ -313,8 +313,10 @@ packethandlers.HandleIncomingPacket = function(e)
     elseif e.id == 0x030 and gProfileSettings.mode.crafting then
         local target = GetEntity(AshitaCore:GetMemoryManager():GetTarget():GetTargetIndex(0))
         local target_id = AshitaCore:GetMemoryManager():GetTarget():GetServerId(0)
-
-        if Self.ServerId == struct.unpack('I', e.data, 5) or target_id == struct.unpack('I', e.data, 5) then
+        if not Self then
+            gPacketHandlers.DelayedSelfAssign:once(1)
+        end
+        if Self and Self.ServerId == struct.unpack('I', e.data, 5) or target_id == struct.unpack('I', e.data, 5) then
             local crafter_name = (Self.ServerId == struct.unpack('I', e.data, 5) and Self.Name) or target.Name
             local result = e.data:byte(13)
             if result == 0 then
